@@ -1,0 +1,27 @@
+# How to install:
+#
+#     sudo ln -sr ./dummy-ok-server.service /etc/systemd/system/
+#     sudo systemctl enable --now dummy-ok-server
+#
+#     # check
+#     systemctl status dummy-ok-server
+#     # tail logs
+#     journalctl -fu dummy-ok-server
+
+[Unit]
+Description=Dummy HTTP server which always returns empty 200 response to all GET and POST requests
+After=network.target
+
+[Service]
+ExecStart=/home/admin/dummy-ok-server/target/release/dummy-ok-server
+User=www-data
+Group=www-data
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+# Referecens:
+#   https://www.freedesktop.org/software/systemd/man/systemd.unit.html
+#   https://www.freedesktop.org/software/systemd/man/systemd.service.html
