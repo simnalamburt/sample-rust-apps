@@ -1,7 +1,7 @@
 use std::{
     error::Error,
     ffi::CString,
-    iter::repeat,
+    iter::repeat_n,
     mem::size_of,
     ptr::{null, null_mut},
     str::from_utf8,
@@ -196,7 +196,7 @@ unsafe fn compile_shader(src: &str, shader_type: GLenum) -> MyResult<GLuint> {
     if status != (gl::TRUE as GLint) {
         let mut len = 0;
         gl::GetShaderiv(shader, gl::INFO_LOG_LENGTH, &mut len);
-        let mut buf: Vec<u8> = repeat(0).take(len as usize - 1).collect(); // subtract 1 to skip the trailing null character
+        let mut buf: Vec<u8> = repeat_n(0, len as usize - 1).collect(); // subtract 1 to skip the trailing null character
         gl::GetShaderInfoLog(shader, len, null_mut(), buf.as_mut_ptr() as *mut _);
         panic!("{:?}", from_utf8(&buf)?);
     }
@@ -219,7 +219,7 @@ unsafe fn link_program(vs: GLuint, fs: GLuint) -> MyResult<GLuint> {
     if status != (gl::TRUE as GLint) {
         let mut len = 0;
         gl::GetProgramiv(program, gl::INFO_LOG_LENGTH, &mut len);
-        let mut buf: Vec<u8> = repeat(0).take(len as usize - 1).collect(); // subtract 1 to skip the trailing null character
+        let mut buf: Vec<u8> = repeat_n(0, len as usize - 1).collect(); // subtract 1 to skip the trailing null character
         gl::GetProgramInfoLog(program, len, null_mut(), buf.as_mut_ptr() as *mut _);
         panic!("{:?}", from_utf8(&buf)?);
     }
