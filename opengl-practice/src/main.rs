@@ -10,10 +10,10 @@ use std::{
 use gl::types::{GLenum, GLfloat, GLint, GLsizei, GLsizeiptr, GLuint};
 
 use glutin::{
+    ContextBuilder, GlProfile, GlRequest,
     event::{Event, WindowEvent},
     event_loop::{ControlFlow, EventLoop},
     window::WindowBuilder,
-    ContextBuilder, GlProfile, GlRequest,
 };
 
 type MyResult<T> = Result<T, Box<dyn Error>>;
@@ -181,48 +181,52 @@ fn main() -> MyResult<()> {
 }
 
 unsafe fn compile_shader(src: &str, shader_type: GLenum) -> MyResult<GLuint> {
-    let shader = gl::CreateShader(shader_type);
+    unsafe {
+        let shader = gl::CreateShader(shader_type);
 
-    // Attempt to compile the shader
-    let src = CString::new(src)?;
-    gl::ShaderSource(shader, 1, &src.as_ptr(), null());
-    gl::CompileShader(shader);
+        // Attempt to compile the shader
+        let src = CString::new(src)?;
+        gl::ShaderSource(shader, 1, &src.as_ptr(), null());
+        gl::CompileShader(shader);
 
-    // Get the compile status
-    let mut status = gl::FALSE as GLint;
-    gl::GetShaderiv(shader, gl::COMPILE_STATUS, &mut status);
+        // Get the compile status
+        let mut status = gl::FALSE as GLint;
+        gl::GetShaderiv(shader, gl::COMPILE_STATUS, &mut status);
 
-    // Fail on error
-    if status != (gl::TRUE as GLint) {
-        let mut len = 0;
-        gl::GetShaderiv(shader, gl::INFO_LOG_LENGTH, &mut len);
-        let mut buf: Vec<u8> = repeat_n(0, len as usize - 1).collect(); // subtract 1 to skip the trailing null character
-        gl::GetShaderInfoLog(shader, len, null_mut(), buf.as_mut_ptr() as *mut _);
-        panic!("{:?}", from_utf8(&buf)?);
+        // Fail on error
+        if status != (gl::TRUE as GLint) {
+            let mut len = 0;
+            gl::GetShaderiv(shader, gl::INFO_LOG_LENGTH, &mut len);
+            let mut buf: Vec<u8> = repeat_n(0, len as usize - 1).collect(); // subtract 1 to skip the trailing null character
+            gl::GetShaderInfoLog(shader, len, null_mut(), buf.as_mut_ptr() as *mut _);
+            panic!("{:?}", from_utf8(&buf)?);
+        }
+
+        Ok(shader)
     }
-
-    Ok(shader)
 }
 
 unsafe fn link_program(vs: GLuint, fs: GLuint) -> MyResult<GLuint> {
-    let program = gl::CreateProgram();
+    unsafe {
+        let program = gl::CreateProgram();
 
-    gl::AttachShader(program, vs);
-    gl::AttachShader(program, fs);
-    gl::LinkProgram(program);
+        gl::AttachShader(program, vs);
+        gl::AttachShader(program, fs);
+        gl::LinkProgram(program);
 
-    // Get the link status
-    let mut status = gl::FALSE as GLint;
-    gl::GetProgramiv(program, gl::LINK_STATUS, &mut status);
+        // Get the link status
+        let mut status = gl::FALSE as GLint;
+        gl::GetProgramiv(program, gl::LINK_STATUS, &mut status);
 
-    // Fail on error
-    if status != (gl::TRUE as GLint) {
-        let mut len = 0;
-        gl::GetProgramiv(program, gl::INFO_LOG_LENGTH, &mut len);
-        let mut buf: Vec<u8> = repeat_n(0, len as usize - 1).collect(); // subtract 1 to skip the trailing null character
-        gl::GetProgramInfoLog(program, len, null_mut(), buf.as_mut_ptr() as *mut _);
-        panic!("{:?}", from_utf8(&buf)?);
+        // Fail on error
+        if status != (gl::TRUE as GLint) {
+            let mut len = 0;
+            gl::GetProgramiv(program, gl::INFO_LOG_LENGTH, &mut len);
+            let mut buf: Vec<u8> = repeat_n(0, len as usize - 1).collect(); // subtract 1 to skip the trailing null character
+            gl::GetProgramInfoLog(program, len, null_mut(), buf.as_mut_ptr() as *mut _);
+            panic!("{:?}", from_utf8(&buf)?);
+        }
+
+        Ok(program)
     }
-
-    Ok(program)
 }

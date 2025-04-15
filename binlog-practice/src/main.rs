@@ -1,9 +1,9 @@
-use std::collections::hash_map::Entry;
 use std::collections::HashMap;
+use std::collections::hash_map::Entry;
 
 use anyhow::Result;
 use clap::Parser;
-use std::fs::{metadata, File};
+use std::fs::{File, metadata};
 use walkdir::WalkDir;
 
 use mysql_cdc::binlog_reader::BinlogReader;

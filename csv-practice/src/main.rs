@@ -1,7 +1,7 @@
 use std::{error::Error, io::stdin};
 
 use csv::Reader;
-use fastnum::{decimal::Context, UD128};
+use fastnum::{UD128, decimal::Context};
 
 fn main() -> Result<(), Box<dyn Error>> {
     let mut reader = Reader::from_reader(stdin().lock());

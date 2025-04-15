@@ -1,5 +1,5 @@
 use anyhow::Result;
-use jsonwebtoken::{decode, DecodingKey, Validation};
+use jsonwebtoken::{DecodingKey, Validation, decode};
 use std::collections::HashMap;
 
 const TOKEN: &str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiBEb2UiLCJpYXQiOjE1MTYyMzkwMjIsImV4cCI6OTU3NTg3ODM1NywiYXVkIjoiZm9vIn0.lOd828g8wv0Fc8e44GzSn0vkOMGJR4PIbX5baJl9UnE";

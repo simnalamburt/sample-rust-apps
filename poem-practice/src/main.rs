@@ -1,7 +1,7 @@
-use poem::{listener::TcpListener, Route, Server};
+use poem::{Route, Server, listener::TcpListener};
 use poem_openapi::{
-    param::Query, payload::Json, payload::PlainText, ApiResponse, Object, OpenApi, OpenApiService,
-    Union,
+    ApiResponse, Object, OpenApi, OpenApiService, Union, param::Query, payload::Json,
+    payload::PlainText,
 };
 
 static COUNTER: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);

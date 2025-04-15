@@ -52,7 +52,7 @@ fn main() -> Result<()> {
             frame.set_cursor_position(Position::new(input_area.x + state.cursor(), input_area.y));
         })?;
 
-        use ratatui::crossterm::event::{read, Event::Key, KeyCode, KeyEvent, KeyEventKind::Press};
+        use ratatui::crossterm::event::{Event::Key, KeyCode, KeyEvent, KeyEventKind::Press, read};
 
         let Key(KeyEvent {
             kind: Press, code, ..
