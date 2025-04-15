@@ -1,7 +1,8 @@
 [package]
 name = "dotenvy-practice"
 version = "0.1.0"
-edition = "2021"
+authors.workspace = true
+edition.workspace = true
 
 [dependencies]
 dotenvy = { git = "https://github.com/allan2/dotenvy.git", rev = "e2da110668" }

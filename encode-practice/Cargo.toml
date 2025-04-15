@@ -1,8 +1,8 @@
 [package]
 name = "encode-practice"
 version = "0.1.0"
-authors = ["Hyeon Kim <simnalamburt@gmail.com>"]
-edition = "2021"
+authors.workspace = true
+edition.workspace = true
 
 [dependencies]
 obj-rs = "0.7"

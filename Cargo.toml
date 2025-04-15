@@ -1,3 +1,7 @@
 [workspace]
 members = ["*-practice", "dummy-ok-server"]
 resolver = "2"
+
+[workspace.package]
+authors = ["Jihyeon Kim <simnalamburt@gmail.com>"]
+edition = "2021"
