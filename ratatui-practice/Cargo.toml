@@ -7,5 +7,5 @@ license.workspace = true
 repository.workspace = true
 
 [dependencies]
-ratatui = "0.29"
-unicode-width = "0.2.0"
+ratatui = "0.30"
+unicode-width = "0.2.2"
